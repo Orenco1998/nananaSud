@@ -1,0 +1,50 @@
+{% extends 'base.html.twig' %}
+
+
+
+{% block title 'Nanana Sud' %}
+
+{% block body %}
+    <div class="jumbotron text-center">
+        <h1>Nanana Sud</h1>
+        <p>
+             Eco-Service
+        </p>
+    </div>
+
+
+    {% if app.user %}
+
+
+
+
+        {% else %}
+
+    <div class="container text-center">
+        <h2>Voulez-vous vous inscrire ? Êtes-vous un ...</h2>
+
+        <div class="row">
+            <!-- for css purpose only -->
+            <div class="col-md-4"></div>
+
+            <div class="col-md-2">
+                <a href="{{ path('registerCompagny') }}">
+                <button type="button" class="btn btn-success">PROFESSIONEL</button>
+                </a>
+            </div>
+            <div class="col-md-2">
+                <a href="{{ path('registerParticular') }}">
+                <button type="button" class="btn btn-success">PARTICULIER</button>
+                </a>
+            </div>
+
+
+        </div>
+    </div>
+
+    {% endif %}
+
+
+
+{% endblock %}
+

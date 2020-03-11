@@ -1,0 +1,20 @@
+<div class="card mb-4">
+    {% if product.picture %}
+        <img src="{{ vich_uploader_asset(product, 'imageFile') | imagine_filter('thumb') }}" alt="card-img-top" style="width: 100%; height: auto">
+
+    {% else %}
+        <img src="{{ 'images/products/empty.jpg' | imagine_filter('thumb') }}" alt="card-img-top" style="width: 100%; height: auto">
+    {% endif %}
+    <div class="card-body">
+        <h5 class="card-title">
+            <a href="{{ path('product.show', {slug: product.slug, id: product.id}) }}">
+                {{ product.name }}
+            </a>
+        </h5>
+
+        <div class="text-primary" style="font-size: 2rem; font-weight: bold;">
+            {{ product.formattedPrice }} €
+        </div>
+    </div>
+</div>
+

@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}S'inscrire{% endblock %}
+
+{% block body %}
+<div class="container mt-4">
+
+<h1>S'inscrire</h1>
+
+        {{ form_start(registrationForm) }}
+        <div class="row">
+
+        <div class="col-md-12">{{ form_row(registrationForm.email) }}</div>
+        <div class="col-md-12">{{ form_row(registrationForm.username) }}</div>
+        <div class="col-md-12">{{ form_row(registrationForm.lastName) }}</div>
+        <div class="col-md-12">{{ form_row(registrationForm.firstName) }}</div>
+        <div class="col-md-12">{{ form_row(registrationForm.address) }}</div>
+        <div class="col-md-12">{{ form_row(registrationForm.phone) }}</div>
+        <div class="col-md-12">{{ form_row(registrationForm.city) }}</div>
+        <div class="col-md-12">{{ form_row(registrationForm.postalCode) }}</div>
+        <div class="col-md-12">{{ form_row(registrationForm.password) }}</div>
+        <div class="col-md-12">{{ form_row(registrationForm.agreeTerms) }}</div>
+
+        </div>
+        <button class="btn btn-success" type="submit">
+                S'inscrire
+        </button>
+    {{ form_end(registrationForm) }}
+</div>
+{% endblock %}

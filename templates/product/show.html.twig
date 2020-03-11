@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+
+
+{% block title product.name %}
+
+{% block body %}
+    <div class="jumbotron">
+        <div class="container">
+
+
+            {% for message in app.flashes('success') %}
+                <div class="alert alert-success">
+                    {{ message }}
+                </div>
+            {% endfor %}
+
+
+            <div class="row">
+                <div class="col-md-8">
+                    {% if product.picture %}
+                        <img src="{{ vich_uploader_asset(product, 'imageFile') | imagine_filter('medium') }}" alt="card-img-top" style="width: 100%; height: auto">
+
+                    {% else %}
+                        <img src="{{ 'images/products/empty.jpg' | imagine_filter('medium') }}" alt="card-img-top" style="width: 100%; height: auto">
+                    {% endif %}
+                </div>
+                <div class="col-md-4">
+                    <h1>{{ product.name }}</h1>
+                    <h2>Stockage: {{ product.storage }} pièces</h2>
+                    <div class="text-primary" style="font-size: 4rem; font-weight: bold">{{ product.formattedPrice }}€
+                    </div>
+                    <a href="{{ path('basket_add', {'id': product.id}) }}" class="btn btn-success"> Ajouter au panier</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container mt-4">
+        <p>
+            {{ product.description | nl2br }}
+        </p>
+    </div>
+
+{% endblock %}
+
+
+
+

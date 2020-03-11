@@ -3,8 +3,11 @@
 namespace App\Repository;
 
 use App\Entity\Product;
+use App\Entity\ProductSearch;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\ORM\Query;
+use Doctrine\ORM\QueryBuilder;
 
 /**
  * @method Product|null find($id, $lockMode = null, $lockVersion = null)
@@ -18,6 +21,33 @@ class ProductRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Product::class);
     }
+
+
+    /**
+     * @return Query
+     */
+
+    public function findAllVisible(ProductSearch $search): Query
+    {
+        $query = $this->findVisibleQuery();
+        if ($search->getMaxPrice()) {
+            $query = $query->andWhere('p.price <= :maxprice');
+            $query->setParameter('maxprice', $search->getMaxPrice());
+        }
+
+        if ($search->getName()) {
+            $query = $query->andWhere('p.name LIKE :name');
+            $query->setParameter('name', '%'.$search->getName().'%');
+        }
+        return $query->getQuery();
+    }
+
+    private function findVisibleQuery(): QueryBuilder
+    {
+        return $this->createQueryBuilder('p');
+    }
+
+
 
     // /**
     //  * @return Product[] Returns an array of Product objects
@@ -37,7 +67,7 @@ class ProductRepository extends ServiceEntityRepository
     */
 
     /*
-    public function findOneBySomeField($value): ?Product
+    public function findOneBySomeField($value): ?Property
     {
         return $this->createQueryBuilder('p')
             ->andWhere('p.exampleField = :val')

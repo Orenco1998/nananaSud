@@ -46,9 +46,9 @@ class ProductComment
     private $product;
 
     /**
-     * @var \UsersParticular
+     * @var \Users
      *
-     * @ORM\ManyToOne(targetEntity="UsersParticular")
+     * @ORM\ManyToOne(targetEntity="Users")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="user_id", referencedColumnName="id")
      * })
@@ -96,12 +96,12 @@ class ProductComment
         return $this;
     }
 
-    public function getUser(): ?UsersParticular
+    public function getUser(): ?Users
     {
         return $this->user;
     }
 
-    public function setUser(?UsersParticular $user): self
+    public function setUser(?Users $user): self
     {
         $this->user = $user;
 

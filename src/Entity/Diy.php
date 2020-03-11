@@ -43,9 +43,9 @@ class Diy
     private $link;
 
     /**
-     * @var \UsersParticular
+     * @var \Users
      *
-     * @ORM\ManyToOne(targetEntity="UsersParticular")
+     * @ORM\ManyToOne(targetEntity="Users")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="id_user", referencedColumnName="id")
      * })
@@ -93,12 +93,12 @@ class Diy
         return $this;
     }
 
-    public function getIdUser(): ?UsersParticular
+    public function getIdUser(): ?Users
     {
         return $this->idUser;
     }
 
-    public function setIdUser(?UsersParticular $idUser): self
+    public function setIdUser(?Users $idUser): self
     {
         $this->idUser = $idUser;
 

@@ -32,9 +32,9 @@ class CompagnyBasket
     private $idService;
 
     /**
-     * @var \UsersCompagnies
+     * @var \Users
      *
-     * @ORM\ManyToOne(targetEntity="UsersCompagnies")
+     * @ORM\ManyToOne(targetEntity="Users")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="id_compagny", referencedColumnName="id")
      * })
@@ -58,12 +58,12 @@ class CompagnyBasket
         return $this;
     }
 
-    public function getIdCompagny(): ?UsersCompagnies
+    public function getIdCompagny(): ?Users
     {
         return $this->idCompagny;
     }
 
-    public function setIdCompagny(?UsersCompagnies $idCompagny): self
+    public function setIdCompagny(?Users $idCompagny): self
     {
         $this->idCompagny = $idCompagny;
 

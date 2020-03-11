@@ -3,8 +3,11 @@
 namespace App\Repository;
 
 use App\Entity\Service;
+use App\Entity\ServiceSearch;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\ORM\Query;
+use Doctrine\ORM\QueryBuilder;
 
 /**
  * @method Service|null find($id, $lockMode = null, $lockVersion = null)
@@ -19,16 +22,43 @@ class ServiceRepository extends ServiceEntityRepository
         parent::__construct($registry, Service::class);
     }
 
+
+    /**
+     * @return Query
+     */
+
+    public function findAllVisible(ServiceSearch $search): Query
+    {
+        $query = $this->findVisibleQuery();
+        if ($search->getMaxPrice()) {
+            $query = $query->andWhere('p.price <= :maxprice');
+            $query->setParameter('maxprice', $search->getMaxPrice());
+        }
+
+        if ($search->getName()) {
+            $query = $query->andWhere('p.name LIKE :name');
+            $query->setParameter('name', '%'.$search->getName().'%');
+        }
+        return $query->getQuery();
+    }
+
+    private function findVisibleQuery(): QueryBuilder
+    {
+        return $this->createQueryBuilder('p');
+    }
+
+
+
     // /**
-    //  * @return Service[] Returns an array of Service objects
+    //  * @return Product[] Returns an array of Product objects
     //  */
     /*
     public function findByExampleField($value)
     {
-        return $this->createQueryBuilder('s')
-            ->andWhere('s.exampleField = :val')
+        return $this->createQueryBuilder('p')
+            ->andWhere('p.exampleField = :val')
             ->setParameter('val', $value)
-            ->orderBy('s.id', 'ASC')
+            ->orderBy('p.id', 'ASC')
             ->setMaxResults(10)
             ->getQuery()
             ->getResult()
@@ -37,10 +67,10 @@ class ServiceRepository extends ServiceEntityRepository
     */
 
     /*
-    public function findOneBySomeField($value): ?Service
+    public function findOneBySomeField($value): ?Property
     {
-        return $this->createQueryBuilder('s')
-            ->andWhere('s.exampleField = :val')
+        return $this->createQueryBuilder('p')
+            ->andWhere('p.exampleField = :val')
             ->setParameter('val', $value)
             ->getQuery()
             ->getOneOrNullResult()
