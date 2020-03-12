@@ -1,0 +1,21 @@
+.blocTitre{
+    text-align: center;
+}
+
+.titre{
+    font-size:40px;
+    text-transform: uppercase;
+    font-family:'Times New Roman';
+    border-bottom:1px solid black;
+}
+
+.sousTitre{
+    font-size:15px;
+    padding-top:5px;
+}
+
+.footer-links{
+    text-align: center;
+    margin-bottom: 30px;
+    margin-top: -10px;
+}
