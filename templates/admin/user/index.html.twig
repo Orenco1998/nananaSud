@@ -6,6 +6,25 @@
 
 <div class="container mt-4">
     <h1>Liste des utilisateurs</h1>
+
+    <div class="container">
+        {{ form_start(form) }}
+        <div class="form-row align-items-end">
+            <div class="col">
+                {{ form_row(form.email) }}
+            </div>
+            <div class="col">
+                {{ form_row(form.roles) }}
+            </div>
+            <div class="col">
+                <div class="form-group">
+                    <button class="btn btn-success">Rechercher</button>
+                </div>
+
+            </div>
+        </div>
+        {{ form_end(form) }}
+    </div>
     <table class="table">
         <thead>
         <th>ID</th>
@@ -22,16 +41,25 @@
                 <td>{{ user.email }}</td>
                 <td>
                     {% for role in user.roles  %}
-                        {% if role == "ROLE_PARTICULAR" %}
+                        {% if role == "ROLE_PARTICULIER" %}
                             Particulier
-                        {% elseif role == "ROLE_COMPAGNY" %}
+                        {% elseif role == "ROLE_SOCIETE" %}
                             Société
-                         {% elseif role == "ROLE_ADMIN" %}
+                         {% elseif role == "ROLE_ADMINISTRATEUR" %}
                              Administrateur
                         {% endif %}
                     {% endfor %}
                 </td>
-                <td><a href="{{ path('admin.user.edit_user', {'id': user.id}) }}" class="btn btn-warning">Modifier</a></td>
+                <td><a href="{{ path('admin.user.edit_user', {'id': user.id}) }}" class="btn btn-warning">Modifier</a>
+                    <form method="post" action="{{ path('admin.user.delete', {id: user.id}) }}"
+                          style="display: inline-block"
+                          onsubmit="return confirm( 'Etes vous sur de vouloir supprimer cet utilisateur ?')">
+                        <input type="hidden" name="_method" value="DELETE">
+                        <input type="hidden" name="_token"
+                               value="{{ csrf_token('delete' ~ user.id) }}">
+                        <button class="btn btn-danger">Supprimer</button>
+                    </form>
+                </td>
             </tr>
         {% else %}
             <tr>

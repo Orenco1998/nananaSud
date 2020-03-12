@@ -30,14 +30,10 @@ class ServiceRepository extends ServiceEntityRepository
     public function findAllVisible(ServiceSearch $search): Query
     {
         $query = $this->findVisibleQuery();
-        if ($search->getMaxPrice()) {
-            $query = $query->andWhere('p.price <= :maxprice');
-            $query->setParameter('maxprice', $search->getMaxPrice());
-        }
 
-        if ($search->getName()) {
-            $query = $query->andWhere('p.name LIKE :name');
-            $query->setParameter('name', '%'.$search->getName().'%');
+        if ($search->getTitle()) {
+            $query = $query->andWhere('p.title LIKE :title');
+            $query->setParameter('title', '%'.$search->getTitle().'%');
         }
         return $query->getQuery();
     }

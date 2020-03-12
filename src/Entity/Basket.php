@@ -29,14 +29,14 @@ class Basket
     private $quantity;
 
     /**
-     * @var \Purchase
+     * @var \Users
      *
-     * @ORM\ManyToOne(targetEntity="Purchase")
+     * @ORM\ManyToOne(targetEntity="Users")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="id_purchase", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="id_user", referencedColumnName="id")
      * })
      */
-    private $idPurchase;
+    private $userId;
 
     /**
      * @var \Product
@@ -65,14 +65,14 @@ class Basket
         return $this;
     }
 
-    public function getIdPurchase(): ?Purchase
+    public function getUserId(): ?Users
     {
-        return $this->idPurchase;
+        return $this->userId;
     }
 
-    public function setIdPurchase(?Purchase $idPurchase): self
+    public function setIdPurchase(?Users $userId): self
     {
-        $this->idPurchase = $idPurchase;
+        $this->userId = $userId;
 
         return $this;
     }

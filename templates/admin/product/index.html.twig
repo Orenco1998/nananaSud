@@ -7,6 +7,25 @@
 
         <h1>Gérer les produits</h1>
 
+        <div class="container">
+            {{ form_start(form) }}
+            <div class="form-row align-items-end">
+                <div class="col">
+                    {{ form_row(form.name) }}
+                </div>
+                <div class="col">
+                    {{ form_row(form.maxPrice) }}
+                </div>
+                <div class="col">
+                    <div class="form-group">
+                        <button class="btn btn-success">Rechercher</button>
+                    </div>
+
+                </div>
+            </div>
+            {{ form_end(form) }}
+        </div>
+
         {% for message in app.flashes('success') %}
             <div class="alert alert-success">
                 {{ message }}
@@ -16,7 +35,8 @@
         <table class="table table-striped">
             <thead>
             <tr>
-                <th>Name</th>
+                <th>Nom</th>
+                <th>Prix</th>
                 <th>Actions</th>
             </tr>
             </thead>
@@ -24,12 +44,13 @@
             {% for product in products %}
                 <tr>
                     <td>{{ product.name }}</td>
+                    <td>{{ product.price }} €</td>
                     <td>
                         <a href="{{ path('admin.product.edit', {id: product.id}) }}"
                            class="btn.btn-secondary">Editer</a>
                         <form method="post" action="{{ path('admin.product.delete', {id: product.id}) }}"
                               style="display: inline-block"
-                              onsubmit="return confirm( 'Etes vous sur de vouloir supprimer ce bien ?')">
+                              onsubmit="return confirm( 'Etes vous sur de vouloir supprimer ce produit ?')">
                             <input type="hidden" name="_method" value="DELETE">
                             <input type="hidden" name="_token"
                                    value="{{ csrf_token('delete' ~ product.id) }}">

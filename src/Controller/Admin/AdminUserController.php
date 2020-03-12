@@ -2,9 +2,15 @@
 
 namespace App\Controller\Admin;
 
+use App\Entity\Diy;
+use App\Entity\UserSearch;
 use App\Entity\Users;
 use App\Form\EditUserType;
+use App\Form\EditUserSearchType;
+use App\Repository\ProductRepository;
 use App\Repository\UsersRepository;
+use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -12,25 +18,46 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class AdminUserController extends AbstractController
 {
-   /* /**
-     * @Route("/", name="index")
+    /**
+     * @var ProductRepository
      */
-   /* public function index()
+    private $repository;
+    /**
+     * @var ObjectManager
+     */
+    private $em;
+
+    public function __construct(UsersRepository $repository, EntityManagerInterface $em)
     {
-        return $this->render('admin/index.html.twig', [
-            'controller_name' => 'AdminUserController',
-        ]);
-    }*/
+
+        $this->repository = $repository;
+        $this->em = $em;
+    }
 
     /**
      * Liste des utilisateurs du site
      * @Route("/admin", name="admin.user.index")
      */
-    public function index(UsersRepository $users){
+    public function index(PaginatorInterface $paginator, Request $request){
 
-        return $this->render("admin/user/index.html.twig",[
+        $search = new UserSearch();
+        $form = $this->createForm(EditUserSearchType::class, $search);
+        $form->handleRequest($request);
+
+
+        $users = $paginator->paginate(
+            $this->repository->findAllVisible($search),
+            $request->query->getInt('page', 1), 12
+        );
+        return $this->render('admin/user/index.html.twig', [
+            'current_menu' => 'user',
+            'users' => $users,
+            'form' => $form->createView()
+        ]);
+
+       /* return $this->render("admin/user/index.html.twig",[
             'users' => $users->findAll()
-            ]);
+            ]);*/
     }
 
     /**
@@ -55,4 +82,23 @@ class AdminUserController extends AbstractController
             'userForm' => $form->createView()
         ]);
     }
+
+    /**
+     * @Route("/{id}", name="admin.user.delete", methods="DELETE")
+     * @param Users $property
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    public function delete(Users $user, Request $request)
+    {
+        if ($this->isCsrfTokenValid('delete' . $user->getId(), $request->get('_token'))) {
+            $this->em->remove($user);
+            $this->em->flush();
+            $this->addFlash('success', 'Bien supprimé avec succès');
+
+        }
+
+        return $this->redirectToRoute('admin.user.index');
+    }
+
 }

@@ -24,9 +24,11 @@
             <div class="col-md-12">{{ form_row(registrationForm.agreeTerms) }}</div>
 
         </div>
+        <a href="{{ path('home') }}">
         <button class="btn btn-success" type="submit">
             S'inscrire
         </button>
+        </a>
         {{ form_end(registrationForm) }}
     </div>
 {% endblock %}

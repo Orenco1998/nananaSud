@@ -10,3 +10,13 @@ vich_uploader:
             uri_prefix: /images/products
             upload_destination: '%kernel.project_dir%/public/images/products'
             namer: Vich\UploaderBundle\Naming\UniqidNamer
+
+        service_image:
+            uri_prefix: /images/services
+            upload_destination: '%kernel.project_dir%/public/images/services'
+            namer: Vich\UploaderBundle\Naming\UniqidNamer
+
+        diy_image:
+            uri_prefix: /images/diys
+            upload_destination: '%kernel.project_dir%/public/images/diys'
+            namer: Vich\UploaderBundle\Naming\UniqidNamer

@@ -2,9 +2,12 @@
 
 namespace App\Repository;
 
+use App\Entity\UserSearch;
 use App\Entity\Users;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\ORM\Query;
+use Doctrine\ORM\QueryBuilder;
 
 /**
  * @method Users|null find($id, $lockMode = null, $lockVersion = null)
@@ -17,6 +20,26 @@ class UsersRepository extends ServiceEntityRepository
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Users::class);
+    }
+
+    public function findAllVisible(UserSearch $search): Query
+    {
+        $query = $this->findVisibleQuery();
+
+        if ($search->getEmail()) {
+            $query = $query->andWhere('p.email LIKE :email');
+            $query->setParameter('email', '%'.$search->getEmail().'%');
+        }
+        if ($search->getRoles()) {
+            $query = $query->andWhere('p.roles LIKE :roles');
+            $query->setParameter('roles', '%'.$search->getRoles().'%');
+        }
+        return $query->getQuery();
+    }
+
+    private function findVisibleQuery(): QueryBuilder
+    {
+        return $this->createQueryBuilder('p');
     }
 
     // /**

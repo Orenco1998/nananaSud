@@ -12,7 +12,7 @@
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-dark bg-success">
-    <a class="navbar-brand" href="">Nanana Sud</a>
+    <a class="navbar-brand" href="">Eco Service</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -28,29 +28,29 @@
             </li>
 
 
-            {% if is_granted('ROLE_PARTICULAR') %}
+            {% if is_granted('ROLE_PARTICULIER') %}
                 <li class="nav-item">
                     <a class="nav-link"
                        href="{{ path('product.index')}}">Produit</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link"
-                       href="">DIY</a>
+                       href="{{ path('diy.index') }}">DIY</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link"
-                       href="">Panier</a>
+                       href="{{ path('basket.index') }}">Panier</a>
                 </li>
             {% endif %}
 
-            {% if is_granted('ROLE_COMPAGNY') %}
+            {% if is_granted('ROLE_SOCIETE') %}
                 <li class="nav-item">
                     <a class="nav-link"
-                       href="">Services</a>
+                       href="{{ path('service.index') }}">Services</a>
 
             {% endif %}
 
-            {% if is_granted('ROLE_ADMIN') %}
+            {% if is_granted('ROLE_ADMINISTRATEUR') %}
                 <li class="nav-item">
                     <a class="nav-link"
                        href="{{ path('admin.user.index') }}">Gestion-Utilisateurs</a>
@@ -61,11 +61,11 @@
                 </li>
                 <li class="nav-item">
                     <a class="nav-link"
-                       href="{{ path('admin.product.index') }}">Gestion-Service</a>
+                       href="{{ path('admin.service.index') }}">Gestion-Service</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link"
-                       href="">Gestion-DIY</a>
+                       href="{{ path('admin.diy.index') }}">Gestion-DIY</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link"
@@ -109,6 +109,6 @@
 
 {% block javascripts %}{% endblock %}
 
-
 </body>
+
 </html>

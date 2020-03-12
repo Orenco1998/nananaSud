@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+
+{% block title diy.title %}
+
+{% block body %}
+    <div class="jumbotron">
+        <div class="container">
+
+
+            {% for message in app.flashes('success') %}
+                <div class="alert alert-success">
+                    {{ message }}
+                </div>
+            {% endfor %}
+
+
+            <div class="row">
+                <div class="col-md-8">
+                    {% if diy.picture %}
+                        <img src="{{ vich_uploader_asset(diy, 'imageFile') | imagine_filter('medium') }}" alt="card-img-top" style="width: 100%; height: auto">
+
+                    {% else %}
+                        <img src="{{ 'images/diys/empty.jpg' | imagine_filter('medium') }}" alt="card-img-top" style="width: 100%; height: auto">
+                    {% endif %}
+                </div>
+                <div class="col-md-4">
+                    <h1>{{ diy.title }}</h1>
+                    <a href="{{ diy.link }}"><h1>{{ diy.link }}</h1></a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container mt-4">
+        <p>
+            {{ diy.description | nl2br }}
+        </p>
+    </div>
+
+{% endblock %}
+
+
+
+

@@ -1,0 +1,70 @@
+{% extends 'base.html.twig' %}
+
+{% block title 'Gérer les diy' %}
+
+{% block body %}
+    <div class="container mt-4">
+
+        <h1>Gérer les diy</h1>
+
+        <div class="container">
+            {{ form_start(form) }}
+            <div class="form-row align-items-end">
+                <div class="col">
+                    {{ form_row(form.title) }}
+                </div>
+                <div class="col">
+                    {{ form_row(form.link) }}
+                </div>
+                <div class="col">
+                    <div class="form-group">
+                        <button class="btn btn-success">Rechercher</button>
+                    </div>
+
+                </div>
+            </div>
+            {{ form_end(form) }}
+        </div>
+
+        {% for message in app.flashes('success') %}
+            <div class="alert alert-success">
+                {{ message }}
+            </div>
+        {% endfor %}
+
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>Titre</th>
+                <th>Lien</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for diy in diys %}
+                <tr>
+                    <td>{{ diy.title }}</td>
+                    <td>{{ diy.link }}</td>
+                    <td>
+                        <a href="{{ path('admin.diy.edit', {id: diy.id}) }}"
+                           class="btn.btn-secondary">Editer</a>
+                        <form method="post" action="{{ path('admin.diy.delete', {id: diy.id}) }}"
+                              style="display: inline-block"
+                              onsubmit="return confirm( 'Etes vous sur de vouloir supprimer ce diy ?')">
+                            <input type="hidden" name="_method" value="DELETE">
+                            <input type="hidden" name="_token"
+                                   value="{{ csrf_token('delete' ~ diy.id) }}">
+                            <button class="btn btn-danger">Supprimer</button>
+                        </form>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        <div class="text-right">
+            <a href="{{ path('admin.diy.new') }}" class="btn btn-success">Créer un nouveau diy</a>
+        </div>
+    </div>
+
+{% endblock %}
+

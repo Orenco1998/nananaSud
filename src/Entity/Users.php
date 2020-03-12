@@ -19,8 +19,10 @@ class Users implements UserInterface
 {
 
     const ROLES = [
-        0 => "ROLE_PARTICULIER",
-        1 => "ROLE_COMPAGNY",
+        "particulier" => "particulier",
+        "societe"=> "société",
+        "administrateur" => "administrateur",
+
     ];
 
     const ACTIVITY_AREA = [

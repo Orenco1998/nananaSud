@@ -1,0 +1,64 @@
+{% extends 'base.html.twig' %}
+
+{% block title 'Gérer les services' %}
+
+{% block body %}
+    <div class="container mt-4">
+
+        <h1>Gérer les services</h1>
+
+        <div class="container">
+            {{ form_start(form) }}
+            <div class="form-row align-items-end">
+                <div class="col">
+                    {{ form_row(form.title) }}
+                </div>
+                <div class="col">
+                    <div class="form-group">
+                        <button class="btn btn-success">Rechercher</button>
+                    </div>
+
+                </div>
+            </div>
+            {{ form_end(form) }}
+        </div>
+        {% for message in app.flashes('success') %}
+            <div class="alert alert-success">
+                {{ message }}
+            </div>
+        {% endfor %}
+
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>Titre</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for service in services %}
+                <tr>
+                    <td>{{ service.title }}</td>
+                    <td>
+                        <a href="{{ path('admin.service.edit', {id: service.id}) }}"
+                           class="btn.btn-secondary">Editer</a>
+                        <form method="post" action="{{ path('admin.service.delete', {id: service.id}) }}"
+                              style="display: inline-block"
+                              onsubmit="return confirm( 'Etes vous sur de vouloir supprimer ce service ?')">
+                            <input type="hidden" name="_method" value="DELETE">
+                            <input type="hidden" name="_token"
+                                   value="{{ csrf_token('delete' ~ service.id) }}">
+                            <button class="btn btn-danger">Supprimer</button>
+                        </form>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        <div class="text-right">
+            <a href="{{ path('admin.service.new') }}" class="btn btn-success">Créer un nouveau service</a>
+        </div>
+    </div>
+
+{% endblock %}
+

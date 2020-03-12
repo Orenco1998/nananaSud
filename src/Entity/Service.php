@@ -2,13 +2,21 @@
 
 namespace App\Entity;
 
+use Cocur\Slugify\Slugify;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\Validator\Constraints as Assert;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
+
 
 /**
  * Service
  *
  * @ORM\Table(name="service")
  * @ORM\Entity(repositoryClass="App\Repository\ServiceRepository")
+ * @Vich\Uploadable()
+
  */
 class Service
 {
@@ -35,12 +43,30 @@ class Service
      */
     private $description;
 
+
     /**
-     * @var float
+     * @var string|null
      *
-     * @ORM\Column(name="price", type="float", precision=10, scale=0, nullable=false)
+     * @ORM\Column(name="picture", type="string", length=255, nullable=true)
      */
-    private $price;
+    private $picture;
+
+    /**
+     * @var File|null
+     * @Assert\Image(mimeTypes="image/jpeg")
+     * @Vich\UploadableField(mapping="service_image", fileNameProperty="picture")
+     */
+    private $imageFile;
+
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $updated_at;
+
+    public function getSlug(): string
+    {
+        return (new Slugify())->slugify($this->title);
+    }
 
     public function getId(): ?int
     {
@@ -71,14 +97,47 @@ class Service
         return $this;
     }
 
-    public function getPrice(): ?float
+    public function getPicture(): ?string
     {
-        return $this->price;
+        return $this->picture;
     }
 
-    public function setPrice(float $price): self
+    public function setPicture(?string $picture): self
     {
-        $this->price = $price;
+        $this->picture = $picture;
+
+        return $this;
+    }
+
+    /**
+     * @return File|null
+     */
+    public function getImageFile(): ?File
+    {
+        return $this->imageFile;
+    }
+
+    /**
+     * @param File|null $imageFile
+     * @return Service
+     */
+    public function setImageFile(?File $imageFile): Service
+    {
+        $this->imageFile = $imageFile;
+        if ($this->imageFile instanceof UploadedFile){
+            $this->updated_at = new \DateTime('now');
+        }
+        return $this;
+    }
+
+    public function getUpdatedAt(): ?\DateTimeInterface
+    {
+        return $this->updated_at;
+    }
+
+    public function setUpdatedAt(\DateTimeInterface $updated_at): self
+    {
+        $this->updated_at = $updated_at;
 
         return $this;
     }
