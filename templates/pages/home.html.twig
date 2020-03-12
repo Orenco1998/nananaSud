@@ -1,12 +1,15 @@
 {% extends 'base.html.twig' %}
 
+{% block stylesheets %}
+    <link href="{{asset('css/home.css')}}" type="text/css" rel="stylesheet" />
+{% endblock %}
 
 
-{% block title 'Nanana Sud' %}
+{% block title 'Eco-Service' %}
 
 {% block body %}
     <div class="jumbotron text-center">
-        <h1>Nanana Sud</h1>
+        <h1>Eco-Service</h1>
         <p>
              Eco-Service
         </p>
@@ -14,9 +17,31 @@
 
 
     {% if app.user %}
+    <div class="container text-center">
+        
+        <h4>Une entreprise qui lutte pour préserver notre planète de demain. </br></br>
+        Plus de 20 ans d’expérience dans le milieu du recyclage (appareils électriques </br>et électroniques usagés, 
+        outils industriels, déchets organiques…).</h4>
+        
+        <img src="{{ 'images/products/Recyclage2.png'}}" style="width: 25%; height: auto">
 
+        <h4>Et maintenant dans la vente de produits écoresponsables jusqu’à zéro déchet.</h4>
+        </br>
+   
+        <h4>Vous êtes un particulier, et vous cherchez des produits écoresponsables ?</h4></br>
+        <h4>Ou alors vous êtes une société, et cherchez des services tels que le recyclage, </br>
+        les enlèvements de déchets, de matériels… ?</h4></br>
 
+        <h4>Vous êtes au bon endroit. Eco-Service peut vous aider, vous facilitez la vie </br>
+        grâce à ces nombreux services et vous aidez à lutter avec nous pour sauver notre planète.</h4>
+        <br/><br/>
 
+        <div class="blocTitre">
+            <div class="titre">nos services</div>
+            <div class="sousTitre">NOS SOLUTIONS POUR DU RECYCLAGE ECOLOGIQUE</div>
+        </div>
+        </br>
+    </div>
 
         {% else %}
 
@@ -44,7 +69,29 @@
 
     {% endif %}
 
+    
+<footer class="container py-5">
+  <div class="row">
+    
+    <div class="col-6 col-md">
+      <h6><a class="text-muted" href="#">Mentions légales</a></h6>      
+    </div>    
+    <div class="col-6 col-md">
+      <h6><a class="text-muted" href="#">Politique de confidentialité</a></h6>      
+    </div>
+    <div class="col-6 col-md">
+      <h6><a class="text-muted" href="#">CGV/CGU</a></br></h6>      
+    </div>
+    <div class="col-6 col-md">
+      <h6><a class="text-muted" href="#">Nous contacter</a></h6>      
+    </div>
+    
+  </div> 
+</footer>
 
+<div class="footer-links">
+&copy;2020 Copyright Eco-Service
+</div>
 
 {% endblock %}
 
