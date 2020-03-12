@@ -5,9 +5,10 @@ namespace App\Controller;
 
 
 use App\Entity\Basket;
-use http\Client\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\Request;
+
 
 class BasketController extends AbstractController
 {
@@ -20,10 +21,10 @@ class BasketController extends AbstractController
         return $this->render('basket/index.html.twig');
     }
 
-    /*/**
+    /**
      * @Route("/basket/add/{id}", name="basket_add")
      */
-   /* public function add($id, Request $request){
+    public function add($id, Request $request){
 
         $session = $request->getSession();
         $panier = $session->get('panier', []);
@@ -33,5 +34,5 @@ class BasketController extends AbstractController
         $session->set('panier', $panier);
 
         dd($session->get('panier'));
-    }*/
+    }
 }
