@@ -73,6 +73,8 @@ class DiyController extends AbstractController
             ], 301);
         }
 
+
+
         return $this->render('diy/show.html.twig', [
             'diy' => $diy,
             'current_menu' => 'diy'

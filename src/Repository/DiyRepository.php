@@ -30,7 +30,6 @@ class DiyRepository extends ServiceEntityRepository
     public function findAllVisible(DiySearch $search): Query
     {
         $query = $this->findVisibleQuery();
-
         if ($search->getTitle()) {
             $query = $query->andWhere('p.title LIKE :title');
             $query->setParameter('title', '%'.$search->getTitle().'%');

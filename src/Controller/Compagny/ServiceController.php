@@ -4,9 +4,12 @@
 namespace App\Controller\Compagny;
 
 
+use App\Entity\Contact;
 use App\Entity\Service;
 use App\Entity\ServiceSearch;
+use App\Form\ContactType;
 use App\Form\ServiceSearchType;
+use App\Notification\ContactNotification;
 use App\Repository\ServiceRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
@@ -63,7 +66,7 @@ class ServiceController extends AbstractController
      * @Route("/service/{slug}-{id}", name="service.show", requirements={"slug": "[a-z0-9\-]*"})
      * @return Response
      */
-    public function show(Service $service, string $slug, Request $request): Response
+    public function show(Service $service, string $slug, Request $request, ContactNotification $notification): Response
     {
 
         if ($service->getSlug() !== $slug) {
@@ -72,10 +75,24 @@ class ServiceController extends AbstractController
                 'slug' => $service->getSlug()
             ], 301);
         }
+        $contact = new Contact();
+        $contact->setService($service);
+        $form = $this->createForm(ContactType::class, $contact);
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()){
+            $notification->notify($contact);
+            $this->addFlash('success', 'Votre email a bien été envoyé');
+            return $this->redirectToRoute('service.show', [
+                'id' => $service->getId(),
+                'slug' => $service->getSlug()
+            ]);
+        }
 
         return $this->render('service/show.html.twig', [
             'service' => $service,
-            'current_menu' => 'service'
+            'current_menu' => 'service',
+            'form' => $form->createView()
         ]);
     }
 }

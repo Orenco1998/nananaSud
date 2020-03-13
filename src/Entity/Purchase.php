@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * Purchase
  *
  * @ORM\Table(name="purchase", indexes={@ORM\Index(name="id_user", columns={"id_user"})})
- * @ORM\Entity(repositoryClass="App\Repository\PurchaseRepository")
+ * @ORM\Entity
  */
 class Purchase
 {
@@ -22,11 +22,11 @@ class Purchase
     private $id;
 
     /**
-     * @var string
+     * @var string|null
      *
-     * @ORM\Column(name="delivery_address", type="text", length=65535, nullable=false)
+     * @ORM\Column(name="json_commande", type="text", length=65535, nullable=true)
      */
-    private $deliveryAddress;
+    private $jsonCommande;
 
     /**
      * @var string
@@ -51,59 +51,6 @@ class Purchase
      * })
      */
     private $idUser;
-
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
-
-    public function getDeliveryAddress(): ?string
-    {
-        return $this->deliveryAddress;
-    }
-
-    public function setDeliveryAddress(string $deliveryAddress): self
-    {
-        $this->deliveryAddress = $deliveryAddress;
-
-        return $this;
-    }
-
-    public function getStatus(): ?string
-    {
-        return $this->status;
-    }
-
-    public function setStatus(string $status): self
-    {
-        $this->status = $status;
-
-        return $this;
-    }
-
-    public function getDate(): ?\DateTimeInterface
-    {
-        return $this->date;
-    }
-
-    public function setDate(\DateTimeInterface $date): self
-    {
-        $this->date = $date;
-
-        return $this;
-    }
-
-    public function getIdUser(): ?Users
-    {
-        return $this->idUser;
-    }
-
-    public function setIdUser(?Users $idUser): self
-    {
-        $this->idUser = $idUser;
-
-        return $this;
-    }
 
 
 }

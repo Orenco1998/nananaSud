@@ -4,9 +4,12 @@
 namespace App\Controller\Particular;
 
 
+use App\Entity\Basket;
 use App\Entity\Product;
 use App\Entity\ProductSearch;
+use App\Form\BasketType;
 use App\Form\ProductSearchType;
+use App\Form\ServiceSearchType;
 use App\Repository\ProductRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
@@ -14,6 +17,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 class ProductController extends AbstractController
 {
@@ -63,19 +67,35 @@ class ProductController extends AbstractController
      * @Route("/product/{slug}-{id}", name="product.show", requirements={"slug": "[a-z0-9\-]*"})
      * @return Response
      */
-    public function show(Product $product, string $slug, Request $request): Response
+    public function show(Product $product, string $slug, Request $request, UserInterface $user): Response
     {
+        $basket = new Basket();
+        $basket->setIdProduct($product)
+                ->setUserId($user);
+        $form = $this->createForm(BasketType::class, $basket);
+        $form->handleRequest($request);
 
-        if ($product->getSlug() !== $slug) {
-            return $this->redirectToRoute('product.show', [
+        if($form->isSubmitted() && $form->isValid()){
+            $this->em->persist($basket);
+            $this->em->flush();
+            $this->addFlash('success', 'Produit bien ajouté au panier');
+            return $this->redirectToRoute('basket.index', [
                 'id' => $product->getId(),
+                'basket'=> $basket,
                 'slug' => $product->getSlug()
-            ], 301);
+            ]);
+        }
+        if ($product->getSlug() == $slug) {
+            return $this->render('product/show.html.twig', [
+                'id' => $product->getId(),
+                'slug' => $product->getSlug(),
+                'product' => $product,
+                'basket' => $basket,
+                'form' => $form->createView()
+            ]);
         }
 
-        return $this->render('product/show.html.twig', [
-            'product' => $product,
-            'current_menu' => 'product'
-        ]);
+
+
     }
 }

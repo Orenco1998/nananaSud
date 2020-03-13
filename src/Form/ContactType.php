@@ -1,15 +1,20 @@
 <?php
 
+
 namespace App\Form;
 
-use App\Entity\Basket;
+use App\Entity\Contact;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class BasketType extends AbstractType
+
+class ContactType extends AbstractType
 {
+
     /**
      * @param FormBuilderInterface $builder
      * @param array $options
@@ -17,9 +22,11 @@ class BasketType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('quantity', IntegerType::class, [
-                'required' => true
-            ]);
+            ->add('prenom', TextType::class)
+            ->add('nom', TextType::class)
+            ->add('telephone', TextType::class)
+            ->add('email', EmailType::class)
+            ->add('message', TextareaType::class);
     }
 
     /**
@@ -28,8 +35,9 @@ class BasketType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => Basket::class,
-            'translation_domain' => 'forms'
+            'data_class' => Contact::class
         ]);
     }
+
+
 }

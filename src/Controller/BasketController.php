@@ -5,34 +5,40 @@ namespace App\Controller;
 
 
 use App\Entity\Basket;
+use App\Repository\BasketRepository;
+use Doctrine\ORM\EntityManagerInterface;
+use phpDocumentor\Reflection\Types\This;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\HttpFoundation\Request;
 
 
 class BasketController extends AbstractController
 {
 
     /**
-     * @Route("/basket", name="basket.index")
+     * @var BasketRepository
      */
-    public function index(){
-        //$products = $this->repository->findAll();
-        return $this->render('basket/index.html.twig');
+    private $repository;
+    /**
+     * @var ObjectManager
+     */
+    private $em;
+
+    public function __construct(BasketRepository $repository, EntityManagerInterface $em)
+    {
+
+        $this->repository = $repository;
+        $this->em = $em;
     }
 
+
     /**
-     * @Route("/basket/add/{id}", name="basket_add")
+     * @Route("/basket", name="basket.index")
      */
-    public function add($id, Request $request){
-
-        $session = $request->getSession();
-        $panier = $session->get('panier', []);
-
-        $panier[$id] = 1;
-
-        $session->set('panier', $panier);
-
-        dd($session->get('panier'));
+    public function index(BasketRepository $basketRepository){
+        $users = $this->getUser()->getId();
+        return $this->render('basket/index.html.twig', [
+            'basket' => $basketRepository->findAll(),
+        ]);
     }
 }

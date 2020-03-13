@@ -15,6 +15,18 @@
         </p>
     </div>
 
+    {% for message in app.flashes('success') %}
+        <div class="alert alert-success">
+            {{ message }}
+        </div>
+    {% endfor %}
+
+    {% if not form.vars.valid %}
+        <div class="alert alert-danger">
+            Erreur lors de la soumission du formulaire de contact
+        </div>
+    {% endif %}
+
 
     {% if app.user %}
     <div class="container text-center">
@@ -64,6 +76,16 @@
             </div>
 
 
+            </br>
+            </br>
+            </br>
+            </br>
+            </br>
+            </br>
+            </br>
+            </br>
+          
+
         </div>
     </div>
 
@@ -83,7 +105,21 @@
       <h6><a class="text-muted" href="#">CGV/CGU</a></br></h6>      
     </div>
     <div class="col-6 col-md">
-      <h6><a class="text-muted" href="#">Nous contacter</a></h6>      
+        {{ form_start(form) }}
+        <div class="row">
+            <div class="col">{{ form_row(form.prenom) }}</div>
+            <div class="col">{{ form_row(form.nom) }}</div>
+        </div>
+        <div class="row">
+            <div class="col">{{ form_row(form.telephone) }}</div>
+            <div class="col">{{ form_row(form.email) }}</div>
+        </div>
+        {{ form_rest(form) }}
+        <div class="form-group">
+        <button class="btn btn-success">{{ button|default('Nous contacter') }}</button>
+        </div>
+
+        {{ form_end(form) }}
     </div>
     
   </div> 

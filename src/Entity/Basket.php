@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Basket
  *
- * @ORM\Table(name="basket", uniqueConstraints={@ORM\UniqueConstraint(name="id_purchase", columns={"id_purchase"})}, indexes={@ORM\Index(name="FK_id_product", columns={"id_product"})})
+ * @ORM\Table(name="basket", uniqueConstraints={@ORM\UniqueConstraint(name="user_id", columns={"user_id"})}, indexes={@ORM\Index(name="FK_id_product", columns={"id_product"})})
  * @ORM\Entity(repositoryClass="App\Repository\BasketRepository")
  */
 class Basket
@@ -22,24 +22,24 @@ class Basket
     private $id;
 
     /**
-     * @var int
+     * @var int|null
      *
-     * @ORM\Column(name="quantity", type="integer", nullable=false)
+     * @ORM\Column(name="quantity", type="integer", nullable=true)
      */
     private $quantity;
 
     /**
-     * @var \Users
+     * @var Users|null
      *
      * @ORM\ManyToOne(targetEntity="Users")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="id_user", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="user_id", referencedColumnName="id")
      * })
      */
     private $userId;
 
     /**
-     * @var \Product
+     * @var Product|null
      *
      * @ORM\ManyToOne(targetEntity="Product")
      * @ORM\JoinColumns({
@@ -66,6 +66,11 @@ class Basket
     }
 
     public function getUserId(): ?Users
+    {
+        return $this->userId;
+    }
+
+    public function setUserId(): ?Users
     {
         return $this->userId;
     }

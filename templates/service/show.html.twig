@@ -14,6 +14,12 @@
                 </div>
             {% endfor %}
 
+            {% if not form.vars.valid %}
+                <div class="alert alert-danger">
+                    Erreur lors de la soumission du formulaire de contact
+                </div>
+            {% endif %}
+
 
             <div class="row">
                 <div class="col-md-8">
@@ -26,7 +32,23 @@
                 </div>
                 <div class="col-md-4">
                     <h1>{{ service.title }}</h1>
-                    <a href="" class="btn btn-success"> Demander un devis</a>
+                    <div id="contactForm" class="mt-4">
+                        <h3>Demander un devis</h3>
+                        {{ form_start(form) }}
+                        <div class="row">
+                            <div class="col">{{ form_row(form.prenom) }}</div>
+                            <div class="col">{{ form_row(form.nom) }}</div>
+                        </div>
+                        <div class="row">
+                            <div class="col">{{ form_row(form.telephone) }}</div>
+                            <div class="col">{{ form_row(form.email) }}</div>
+                        </div>
+                        {{ form_rest(form) }}
+                        <div class="form-group">
+                            <button class="btn btn-primary">Envoyer</button>
+                        </div>
+                        {{ form_end(form) }}
+                    </div>
                 </div>
             </div>
         </div>
